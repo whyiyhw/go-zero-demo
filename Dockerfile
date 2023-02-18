@@ -26,7 +26,9 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app ./service/dem
 # 创建一个小镜像
 FROM scratch
 
-COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai
+ENV TZ Asia/Shanghai
 
 COPY service/demo/api/etc /etc
 
