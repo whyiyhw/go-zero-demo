@@ -3,11 +3,11 @@ package {{.pkg}}
 import (
 	"context"
 
-	"go-zero-demo/common/page"
-
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/Masterminds/squirrel"
+
+    "go-zero-demo/common/page"
 )
 {{else}}
 import (

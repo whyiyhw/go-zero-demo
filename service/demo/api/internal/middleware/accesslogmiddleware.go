@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"bytes"
-	"github.com/zeromicro/go-zero/core/logx"
+	"go-zero-demo/common/accesslog"
 	"io"
 	"net/http"
 	"time"
@@ -31,23 +31,7 @@ func (m *AccessLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 
 		endTime := time.Now().Local()
 		ms := (endTime.Nanosecond() - startTime.Nanosecond()) / 1000000
-		type AccessLog struct {
-			Url    string      `json:"url"`
-			Method string      `json:"method"`
-			Query  string      `json:"query"`
-			Body   string      `json:"body"`
-			Header http.Header `json:"header"`
-			Const  int         `json:"const"`
-		}
 
-		l := AccessLog{
-			Url:    r.URL.Path,
-			Method: r.Method,
-			Query:  r.URL.Query().Encode(),
-			Body:   string(bodyByte),
-			Header: r.Header,
-			Const:  ms,
-		}
-		logx.WithContext(r.Context()).WithFields(logx.Field("request", l)).Info()
+		accesslog.ToLog(r, bodyByte, ms)
 	}
 }

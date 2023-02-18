@@ -19,3 +19,13 @@ type UserLoginReq struct {
 type UserLoginReply struct {
 	Token string `json:"token"`
 }
+
+type UserDetailReq struct {
+	ID int64 `form:"id,optional" validate:"required,min=1" label:"用户标识"`
+}
+
+type UserDetailReply struct {
+	ID    int64  `json:"id,optional" validate:"required,min=1" label:"用户标识"`
+	Email string `json:"email,optional" validate:"required,email" label:"邮箱"`
+	Name  string `json:"name,optional" validate:"required,max=50" label:"用户名"`
+}

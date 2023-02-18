@@ -1,4 +1,4 @@
-FROM golang:1.18-alpine AS builder
+FROM golang:1.19-alpine AS builder
 
 # 为镜像设置必要的环境变量
 ENV GO111MODULE=on \
@@ -28,7 +28,7 @@ FROM scratch
 
 COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 
-COPY service/admin/api/etc /etc
+COPY service/demo/api/etc /etc
 
 # 从builder镜像中把/build/app 拷贝到当前目录
 COPY --from=builder /build/app /app

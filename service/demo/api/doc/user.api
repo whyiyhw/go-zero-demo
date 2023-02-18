@@ -27,4 +27,14 @@ type (
     UserLoginReply {
         Token string `json:"token"`
     }
+
+    UserDetailReq {
+        ID int64 `form:"id,optional" validate:"required,min=1" label:"用户标识"`
+    }
+
+    UserDetailReply {
+        ID int64 `json:"id,optional" validate:"required,min=1" label:"用户标识"`
+        Email string `json:"email,optional" validate:"required,email" label:"邮箱"`
+        Name string `json:"name,optional" validate:"required,max=50" label:"用户名"`
+    }
 )

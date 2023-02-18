@@ -23,3 +23,14 @@ service demo-api {
 	@handler UserLoginHandler
 	post /api/user/login (UserLoginReq) returns (UserLoginReply)
 }
+
+@server(
+	middleware: AccessLog // 路由中间件声明
+	jwt : Auth
+	prefix : /api
+)
+
+service demo-api {
+	@handler UserDetailHandler
+	get /user/detail (UserDetailReq) returns (UserDetailReply)
+}
