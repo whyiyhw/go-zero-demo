@@ -2,14 +2,16 @@ package logic
 
 import (
 	"context"
-	"github.com/pkg/errors"
-	"go-zero-demo/common/xerr"
-	"go-zero-demo/service/demo/model"
+	"encoding/json"
+	"fmt"
 
+	"github.com/pkg/errors"
+	"github.com/zeromicro/go-zero/core/logx"
+
+	"go-zero-demo/common/xerr"
 	"go-zero-demo/service/demo/api/internal/svc"
 	"go-zero-demo/service/demo/api/internal/types"
-
-	"github.com/zeromicro/go-zero/core/logx"
+	"go-zero-demo/service/demo/model"
 )
 
 type UserDetailLogic struct {
@@ -30,9 +32,21 @@ func (l *UserDetailLogic) UserDetail(req *types.UserDetailReq) (resp *types.User
 
 	// 用户是否存在
 	user, err2 := l.svcCtx.UserModel.FindOne(l.ctx, req.ID)
+	userId := l.ctx.Value("userId")
 
 	switch err2 {
 	case nil:
+		switch t := userId.(type) {
+		case json.Number:
+			n, _ := userId.(json.Number).Int64()
+			if n != user.Id {
+				err = errors.Wrapf(xerr.NewErrMsg("您无权查看其他的用户详情"), "您无权查看其他的用户详情 %d", req.ID)
+				return
+			}
+		default:
+			fmt.Println(t)
+		}
+
 		resp = &types.UserDetailReply{
 			ID:    user.Id,
 			Name:  user.Name,
@@ -41,7 +55,7 @@ func (l *UserDetailLogic) UserDetail(req *types.UserDetailReq) (resp *types.User
 	case model.ErrNotFound:
 		err = errors.Wrapf(xerr.NewErrMsg("用户不存在"), "用户不存在 %d", req.ID)
 	default:
-		err = errors.Wrapf(xerr.NewErrMsg("查询用户失败"), "查询用户失败 %v", err)
+		err = errors.Wrapf(xerr.NewErrMsg("查询用户失败"), "查询用户失败 %+v", err)
 	}
 
 	return
