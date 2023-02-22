@@ -47,18 +47,21 @@ goctl  template init
 - 默认为 console 日志，后续都是容器部署，可以直接采集容器日志，所以不需要文件日志
 
 ### 中间件
+
 #### access_log  记录访问&响应日志 （已实现）
-#### 默认的 `jwt: Auth` 认证 （已实现）
+
+#### [`jwt: Auth`认证](./doc/04用户详情.md) （已实现）
+
+
+
+### [单元测试](./doc/05单元测试.md) （已实现）
 
 ### 监控（waiting） （待实现）
-
-## 其它可能碰到的问题
-
-- sql 生成 不可以使用字符串拼接，有sql 注入风险，参数统一使用 ? 占位符
 
 ## 引入包说明
 
 ### model 操作
+
 - sql 引入一个简单的 sql 语句封装库 `github.com/Masterminds/squirrel`
 
 ### 验证器
@@ -66,6 +69,7 @@ goctl  template init
 - `github.com/go-playground/validator/v10`  验证器
 
 ### 本地编译
+
 `CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app ./service/demo/api/demo.go`
 
 ### docker 编译&部署

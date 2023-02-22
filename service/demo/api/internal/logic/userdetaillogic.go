@@ -3,8 +3,6 @@ package logic
 import (
 	"context"
 	"encoding/json"
-	"fmt"
-
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -36,7 +34,7 @@ func (l *UserDetailLogic) UserDetail(req *types.UserDetailReq) (resp *types.User
 
 	switch err2 {
 	case nil:
-		switch t := userId.(type) {
+		switch userId.(type) {
 		case json.Number:
 			n, _ := userId.(json.Number).Int64()
 			if n != user.Id {
@@ -44,7 +42,8 @@ func (l *UserDetailLogic) UserDetail(req *types.UserDetailReq) (resp *types.User
 				return
 			}
 		default:
-			fmt.Println(t)
+			err = errors.Wrapf(xerr.NewErrMsg("您无权查看用户详情"), "您无权查看用户详情 %v", userId)
+			return
 		}
 
 		resp = &types.UserDetailReply{
