@@ -1,3 +1,5 @@
+BEGIN;
+
 CREATE TABLE `user`
 (
     `id`         bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '用户全局唯一主键',
@@ -8,3 +10,5 @@ CREATE TABLE `user`
     `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+COMMIT;

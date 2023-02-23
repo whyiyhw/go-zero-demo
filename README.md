@@ -56,6 +56,12 @@ goctl  template init
 
 ### [单元测试](./doc/05单元测试.md) （已实现）
 
+### [数据迁移](./doc/06数据迁移.md) （已实现）
+
+### 队列
+
+### 定时任务
+
 ### 监控（waiting） （待实现）
 
 ## 引入包说明
@@ -66,7 +72,11 @@ goctl  template init
 
 ### 验证器
 
-- `github.com/go-playground/validator/v10`  验证器
+- [github.com/go-playground/validator/v10](https://github.com/go-playground/validator)
+
+### migrate 数据迁移 
+
+- 对比后选择 [github.com/golang-migrate/migrate](https://github.com/golang-migrate/migrate)
 
 ### 本地编译
 
