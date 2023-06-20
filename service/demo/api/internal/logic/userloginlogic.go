@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"gorm.io/gorm"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -33,10 +34,10 @@ func (l *UserLoginLogic) UserLogin(req *types.UserLoginReq) (resp *types.UserLog
 	// 查询 用户是否存在
 	table := l.svcCtx.UserModel.User
 	res, selectErr := table.WithContext(l.ctx).Where(table.Email.Eq(req.Email)).First()
-	if selectErr != nil {
+	if !errors.Is(selectErr, gorm.ErrRecordNotFound) && selectErr != nil {
 		return nil, errors.Wrapf(xerr.NewErrMsg("查询用户失败"), "查询用户失败 %v", err)
 	}
-	if res.ID == 0 {
+	if res == nil {
 		return nil, errors.Wrapf(xerr.NewErrMsg("账号或密码错误"), "账号或密码错误 %s", req.Email)
 	}
 

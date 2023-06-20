@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"gorm.io/gorm"
 
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -33,19 +34,19 @@ func (l *UserRegisterLogic) UserRegister(req *types.UserRegisterReq) (resp *type
 	table := l.svcCtx.UserModel.User
 	exist, err := table.WithContext(l.ctx).Where(table.Email.Eq(req.Email)).First()
 
-	if err != nil {
+	if !errors.Is(err, gorm.ErrRecordNotFound) && err != nil {
 		return nil, errors.Wrapf(xerr.NewErrCodeMsg(xerr.DBError, "查询用户失败"), "查询用户失败 %v", err)
 	} else {
-		if exist.ID > 0 {
+		if exist != nil && exist.ID > 0 {
 			return nil, errors.Wrapf(xerr.NewErrMsg("用户已经注册"), "用户已经注册 %d", exist.ID)
 		}
 	}
 
 	// 加密密码
 	password := []byte(req.Password)
-	hashedPassword, err2 := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
 	if err != nil {
-		return nil, errors.Wrapf(xerr.NewErrMsg("密码加密失败"), "密码加密失败 %v", err2)
+		return nil, errors.Wrapf(xerr.NewErrMsg("密码加密失败"), "密码加密失败 %v", err)
 	}
 
 	// 未注册的用户进行注册操作

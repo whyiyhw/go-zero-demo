@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"encoding/json"
+	"gorm.io/gorm"
 
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -30,16 +31,16 @@ func (l *UserDetailLogic) UserDetail(req *types.UserDetailReq) (resp *types.User
 
 	// 用户是否存在
 	table := l.svcCtx.UserModel.User
-	user, err := table.WithContext(l.ctx).Where(table.ID.Eq(req.ID)).First()
+	user, selectErr := table.WithContext(l.ctx).Where(table.ID.Eq(req.ID)).First()
 
-	if err != nil {
+	if !errors.Is(selectErr, gorm.ErrRecordNotFound) && err != nil {
 		err = errors.Wrapf(xerr.NewErrCodeMsg(xerr.DBError, "查询用户失败"), "查询用户失败 %v", err)
 		return
 	}
 
 	userId := l.ctx.Value("userId")
 
-	if user.ID == 0 {
+	if user == nil {
 		err = errors.Wrapf(xerr.NewErrMsg("用户不存在"), "用户不存在 %d", req.ID)
 		return
 	}
