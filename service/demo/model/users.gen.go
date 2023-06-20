@@ -18,9 +18,9 @@ type User struct {
 	CreatedAt time.Time      `gorm:"column:created_at" json:"created_at"`
 	UpdatedAt time.Time      `gorm:"column:updated_at" json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
-	Name      string         `gorm:"column:name" json:"name"`
-	Email     string         `gorm:"column:email" json:"email"`
-	Password  string         `gorm:"column:password" json:"password"`
+	Name      string         `gorm:"column:name;default:''::character varying" json:"name"`
+	Email     string         `gorm:"column:email;default:''::character varying" json:"email"`
+	Password  string         `gorm:"column:password;default:''::character varying" json:"password"`
 }
 
 // TableName User's table name

@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-var configFile = flag.String("f", "../../etc/demo-api.yaml", "the config file")
+var configFile = flag.String("f", "../../etc/demo-api-test.yaml", "the config file")
 
 func TestUserDetailLogic_UserDetail(t *testing.T) {
 	var c config.Config
@@ -50,14 +50,14 @@ func TestUserDetailLogic_UserDetail(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "error-without-permission",
+			name: "error-without-user",
 			fields: fields{
-				ctx:    context.WithValue(context.Background(), "userId", json.Number("1")),
+				ctx:    context.WithValue(context.Background(), "userId", json.Number("10")),
 				svcCtx: svc.NewServiceContext(c),
 			},
 			args: args{
 				req: &types.UserDetailReq{
-					ID: 2,
+					ID: 10,
 				},
 			},
 			wantResp: nil,
