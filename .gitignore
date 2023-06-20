@@ -24,3 +24,5 @@ go.work
 .idea
 *.yaml
 *.yml
+/build/redis/data/*
+/build/pgvector/data/*

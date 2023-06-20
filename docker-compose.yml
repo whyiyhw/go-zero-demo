@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - pgvector
+      - redis
+    ports:
+      - "18888:8888"
+    volumes:
+      - ./service/demo/api/etc/demo-api.yaml:/etc/demo-api.yaml
+    privileged: true
+    restart: always
+    networks:
+      - demo_network
+  redis:
+    container_name: redis7
+    image: redis:7
+    ports:
+      - "18887:6379"
+    volumes:
+      - ./build/redis/redis.conf:/etc/redis/redis.conf
+      - ./build/redis/data:/data
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      - demo_network
+    restart: always
+    command: redis-server /etc/redis/redis.conf
+  pgvector:
+    container_name: pgvector
+    image: ankane/pgvector:v0.4.4
+    environment:
+      TZ: Asia/Shanghai
+      POSTGRES_DB: demo
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+      PGDATA: /data/postgres
+    volumes:
+      - ./build/pgvector/data:/data/postgres
+    ports:
+      - "18886:5432"
+    networks:
+      - demo_network
+    restart: unless-stopped
+networks:
+  demo_network:

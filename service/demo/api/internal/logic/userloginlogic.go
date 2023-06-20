@@ -2,18 +2,17 @@ package logic
 
 import (
 	"context"
-	"github.com/Masterminds/squirrel"
-	"github.com/golang-jwt/jwt/v4"
-	"github.com/pkg/errors"
-	"go-zero-demo/common/xerr"
-	"go-zero-demo/service/demo/model"
-	"golang.org/x/crypto/bcrypt"
 	"time"
 
+	"github.com/golang-jwt/jwt/v4"
+	"github.com/pkg/errors"
+	"github.com/zeromicro/go-zero/core/logx"
+
+	"go-zero-demo/common/xerr"
 	"go-zero-demo/service/demo/api/internal/svc"
 	"go-zero-demo/service/demo/api/internal/types"
 
-	"github.com/zeromicro/go-zero/core/logx"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserLoginLogic struct {
@@ -32,12 +31,12 @@ func NewUserLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserLog
 
 func (l *UserLoginLogic) UserLogin(req *types.UserLoginReq) (resp *types.UserLoginReply, err error) {
 	// 查询 用户是否存在
-	builder := l.svcCtx.UserModel.RowBuilder().Where(squirrel.Eq{"email": req.Email})
-	res, selectErr := l.svcCtx.UserModel.FindOneByQuery(l.ctx, builder)
-	if selectErr != nil && selectErr != model.ErrNotFound {
+	table := l.svcCtx.UserModel.User
+	res, selectErr := table.WithContext(l.ctx).Where(table.Email.Eq(req.Email)).First()
+	if selectErr != nil {
 		return nil, errors.Wrapf(xerr.NewErrMsg("查询用户失败"), "查询用户失败 %v", err)
 	}
-	if selectErr == model.ErrNotFound || res.Id == 0 {
+	if res.ID == 0 {
 		return nil, errors.Wrapf(xerr.NewErrMsg("账号或密码错误"), "账号或密码错误 %s", req.Email)
 	}
 
@@ -52,7 +51,7 @@ func (l *UserLoginLogic) UserLogin(req *types.UserLoginReq) (resp *types.UserLog
 		l.svcCtx.Config.Auth.AccessSecret,
 		time.Now().Unix(),
 		l.svcCtx.Config.Auth.AccessExpire,
-		res.Id,
+		res.ID,
 	)
 
 	if tokenErr != nil {

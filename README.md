@@ -91,3 +91,12 @@ docker run -i -t -d \
  -p 8990:8888 \
   --name=demo-service  demo-service
 ```
+
+- gentool
+```shell
+go install gorm.io/gen/tools/gentool@latest
+```
+
+```tool
+gentool -db "postgres" -dsn "host=localhost user=root password=123456 dbname=demo port=18886 sslmode=disable TimeZone=Asia/Shanghai" -outPath "./service/demo/dao"
+```
