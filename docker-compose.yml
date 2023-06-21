@@ -35,6 +35,7 @@ services:
     image: ankane/pgvector:v0.4.4
     environment:
       TZ: Asia/Shanghai
+      PGTZ: Asia/Shanghai
       POSTGRES_DB: demo
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 123456
