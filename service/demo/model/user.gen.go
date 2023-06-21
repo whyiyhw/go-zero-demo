@@ -14,13 +14,13 @@ const TableNameUser = "user"
 
 // User mapped from table <user>
 type User struct {
-	ID        int64          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	Name      string         `gorm:"column:name;not null" json:"name"`
-	Email     string         `gorm:"column:email" json:"email"`
-	Password  string         `gorm:"column:password" json:"password"`
-	CreatedAt time.Time      `gorm:"column:created_at" json:"created_at"`
-	UpdatedAt time.Time      `gorm:"column:updated_at;default:CURRENT_TIMESTAMP" json:"updated_at"`
-	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
+	ID        int64          `gorm:"column:id;primaryKey;comment:主键id" json:"id"`
+	Name      string         `gorm:"column:name;not null;default:''::character varying;comment:用户名称" json:"name"`
+	Email     string         `gorm:"column:email;not null;default:''::character varying;comment:邮箱" json:"email"`
+	Password  string         `gorm:"column:password;not null;default:''::character varying;comment:密码" json:"password"`
+	CreatedAt time.Time      `gorm:"column:created_at;comment:创建时间" json:"created_at"`
+	UpdatedAt time.Time      `gorm:"column:updated_at;default:CURRENT_TIMESTAMP;comment:更新时间" json:"updated_at"`
+	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at;comment:软删除字段" json:"deleted_at"`
 }
 
 // TableName User's table name

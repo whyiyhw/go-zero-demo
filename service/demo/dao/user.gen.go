@@ -44,13 +44,13 @@ type user struct {
 	userDo userDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
-	Name      field.String
-	Email     field.String
-	Password  field.String
-	CreatedAt field.Time
-	UpdatedAt field.Time
-	DeletedAt field.Field
+	ID        field.Int64  // 主键id
+	Name      field.String // 用户名称
+	Email     field.String // 邮箱
+	Password  field.String // 密码
+	CreatedAt field.Time   // 创建时间
+	UpdatedAt field.Time   // 更新时间
+	DeletedAt field.Field  // 软删除字段
 
 	fieldMap map[string]field.Expr
 }
