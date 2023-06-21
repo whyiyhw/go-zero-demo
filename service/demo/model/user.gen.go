@@ -10,17 +10,17 @@ import (
 	"gorm.io/gorm"
 )
 
-const TableNameUser = "users"
+const TableNameUser = "user"
 
-// User mapped from table <users>
+// User mapped from table <user>
 type User struct {
 	ID        int64          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
+	Name      string         `gorm:"column:name;not null" json:"name"`
+	Email     string         `gorm:"column:email" json:"email"`
+	Password  string         `gorm:"column:password" json:"password"`
 	CreatedAt time.Time      `gorm:"column:created_at" json:"created_at"`
-	UpdatedAt time.Time      `gorm:"column:updated_at" json:"updated_at"`
+	UpdatedAt time.Time      `gorm:"column:updated_at;default:CURRENT_TIMESTAMP" json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
-	Name      string         `gorm:"column:name;default:''::character varying" json:"name"`
-	Email     string         `gorm:"column:email;default:''::character varying" json:"email"`
-	Password  string         `gorm:"column:password;default:''::character varying" json:"password"`
 }
 
 // TableName User's table name

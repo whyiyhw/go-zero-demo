@@ -41,6 +41,7 @@ services:
       PGDATA: /data/postgres
     volumes:
       - ./build/pgvector/data:/data/postgres
+      - ./build/pgvector/init:/docker-entrypoint-initdb.d/
     ports:
       - "18886:5432"
     networks:

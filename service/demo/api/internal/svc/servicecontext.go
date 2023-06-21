@@ -6,8 +6,6 @@ import (
 	"go-zero-demo/service/demo/dao"
 
 	"go-zero-demo/service/demo/api/internal/config"
-	"go-zero-demo/service/demo/model"
-
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -33,10 +31,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	//自动同步更新表结构,
-	err = db.AutoMigrate(&model.User{})
-	if err != nil {
-		panic(err)
-	}
+	//err = db.AutoMigrate(&model.User{})
+	//if err != nil {
+	//	panic(err)
+	//}
 
 	return &ServiceContext{
 		Config:    c,
