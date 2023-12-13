@@ -32,7 +32,7 @@ services:
     command: redis-server /etc/redis/redis.conf
   pgvector:
     container_name: pgvector
-    image: ankane/pgvector:v0.4.4
+    image: ankane/pgvector:v0.5.1
     environment:
       TZ: Asia/Shanghai
       PGTZ: Asia/Shanghai

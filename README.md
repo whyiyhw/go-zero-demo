@@ -94,3 +94,6 @@ go install github.com/zeromicro/go-zero/tools/goctl@latest
 ```tool
 gentool -db "postgres" -dsn "host=localhost user=root password=123456 dbname=demo port=18886 sslmode=disable TimeZone=Asia/Shanghai" -outPath "./service/demo/dao"
 ```
+
+## 项目版本更新
+- `go get -u && go mod tidy`

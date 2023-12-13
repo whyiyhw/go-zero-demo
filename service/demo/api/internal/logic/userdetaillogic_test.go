@@ -3,19 +3,14 @@ package logic
 import (
 	"context"
 	"encoding/json"
-	"flag"
 	"github.com/zeromicro/go-zero/core/conf"
-	"go-zero-demo/service/demo/api/internal/config"
 	"go-zero-demo/service/demo/api/internal/svc"
 	"go-zero-demo/service/demo/api/internal/types"
 	"reflect"
 	"testing"
 )
 
-var configFile = flag.String("f", "../../etc/demo-api-test.yaml", "the config file")
-
 func TestUserDetailLogic_UserDetail(t *testing.T) {
-	var c config.Config
 	conf.MustLoad(*configFile, &c)
 	type fields struct {
 		ctx    context.Context
