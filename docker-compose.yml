@@ -18,7 +18,7 @@ services:
       - demo_network
   redis:
     container_name: redis7
-    image: redis:7
+    image: redis:7.0
     ports:
       - "18887:6379"
     volumes:
@@ -32,7 +32,7 @@ services:
     command: redis-server /etc/redis/redis.conf
   pgvector:
     container_name: pgvector
-    image: ankane/pgvector:v0.5.1
+    image: pgvector/pgvector:0.7.0-pg15
     environment:
       TZ: Asia/Shanghai
       PGTZ: Asia/Shanghai
@@ -47,6 +47,6 @@ services:
       - "18886:5432"
     networks:
       - demo_network
-    restart: unless-stopped
+    restart: always
 networks:
   demo_network:

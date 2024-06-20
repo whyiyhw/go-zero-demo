@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine AS builder
+FROM golang:1.22-alpine AS builder
 
 # 为镜像设置必要的环境变量
 ENV GO111MODULE=on \

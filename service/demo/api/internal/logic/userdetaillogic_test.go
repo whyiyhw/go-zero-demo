@@ -29,16 +29,16 @@ func TestUserDetailLogic_UserDetail(t *testing.T) {
 		{
 			name: "success",
 			fields: fields{
-				ctx:    context.WithValue(context.Background(), "userId", json.Number("2")),
+				ctx:    context.WithValue(context.Background(), "userId", json.Number("1")),
 				svcCtx: svc.NewServiceContext(c),
 			},
 			args: args{
 				req: &types.UserDetailReq{
-					ID: 2,
+					ID: 1,
 				},
 			},
 			wantResp: &types.UserDetailReply{
-				ID:    2,
+				ID:    1,
 				Email: "demo@163.com",
 				Name:  "demo",
 			},

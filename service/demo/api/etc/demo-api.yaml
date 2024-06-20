@@ -12,3 +12,9 @@ RedisCache:
 Auth:
   AccessSecret: "13450cd8841c0f0"
   AccessExpire: 2592000
+
+Email:
+  Host: "smtp.office365.com"
+  Port: 587
+  User: "xxx@outlook.com"
+  Pass: "xxx"

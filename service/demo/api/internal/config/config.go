@@ -13,8 +13,16 @@ type Config struct {
 	}
 
 	RedisCache cache.CacheConf
-	Auth       struct {
+
+	Auth struct {
 		AccessSecret string
 		AccessExpire int64
+	}
+
+	Email struct {
+		Host string
+		Port int
+		User string
+		Pass string
 	}
 }

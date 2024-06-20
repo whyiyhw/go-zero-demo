@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"fmt"
+	"go-zero-demo/common/email"
 	"gorm.io/gorm"
 
 	"github.com/pkg/errors"
@@ -57,6 +59,15 @@ func (l *UserRegisterLogic) UserRegister(req *types.UserRegisterReq) (resp *type
 	}); err != nil {
 		return nil, errors.Wrapf(xerr.NewErrMsg("用户注册失败"), "用户注册失败 %v", err)
 	}
+
+	fmt.Println(req.Email)
+	email.Send(
+		req.Email, l.svcCtx.Config.Email.User, email.LoginAuth(l.svcCtx.Config.Email.User, l.svcCtx.Config.Email.Pass),
+		&email.Client{
+			Host: l.svcCtx.Config.Email.Host,
+			Port: l.svcCtx.Config.Email.Port,
+		},
+	)
 
 	return &types.UserRegisterReply{Message: "注册成功，去登录吧~"}, nil
 }
